@@ -32,12 +32,12 @@ namespace SloReviewTool
         private async void QueryButton_Click(object sender, RoutedEventArgs e)
         {
             QueryButton.IsEnabled = false;
-            QueryStatus.Text = "Executing Query...";
+            QueryStatus.Content = "Executing Query...";
 
             try {
                 var results = await ExecuteQueryAsync(QueryTextBox.Text);
 
-                QueryStatus.Text = string.Format("Query returned {0} record(s)", results.Count);
+                QueryStatus.Content = string.Format("Query returned {0} record(s)", results.Count);
                 ResultsDataGrid.ItemsSource = results;
 
             } catch(Exception ex) {
@@ -49,6 +49,7 @@ namespace SloReviewTool
 
         private void ResultsDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            if (ResultsDataGrid.CurrentItem == null) return;
             var sloView = new SloView((ResultsDataGrid.CurrentItem as SloRecord).GetSloDefinition());
             sloView.Show();
         }

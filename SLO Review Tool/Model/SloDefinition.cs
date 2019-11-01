@@ -14,7 +14,8 @@ namespace SloReviewTool.Model
 
         public SloDefinition(string jsonText)
         {
-            slo_ = ParseSloText(jsonText);
+            SloText = ConvertServiceTreeJsonToYaml(jsonText);
+            slo_ = ParseSloText(SloText);
         }
 
         public string SloText { get; private set; }
@@ -25,15 +26,21 @@ namespace SloReviewTool.Model
             }
         }
 
-        Dictionary<string, object> ParseSloText(string jsonText)
+        Dictionary<string, object> ParseSloText(string sloText)
         {
-            // For now, parse JSON to get SLO yaml.  Service Tree should be fixed.
-            var json = JObject.Parse(jsonText);
-            SloText = json["ServiceLevelObjectives"].ToString();
-
             var deserializer = new YamlDotNet.Serialization.Deserializer();
-            return deserializer.Deserialize<Dictionary<string, object>>(SloText);
+            return deserializer.Deserialize<Dictionary<string, object>>(sloText);
         }
 
+        string ConvertServiceTreeJsonToYaml(string rawText)
+        {
+            rawText = rawText.Replace(@"\n", "\n");
+
+            // For now, parse JSON to get SLO yaml.  Service Tree should be fixed.
+            var json = JObject.Parse(rawText);
+            var yaml = json["ServiceLevelObjectives"].ToString();
+
+            return yaml;
+        }
     }
 }

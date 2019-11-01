@@ -16,19 +16,13 @@ namespace SloReviewTool.Model
 
         public void SetYamlValue(string yaml)
         {
-            YamlValue = FormatYaml(yaml);
+            YamlValue = yaml;
             slo_ = new SloDefinition(YamlValue);
         }
 
         public SloDefinition GetSloDefinition()
         {
             return slo_;
-        }
-
-        string FormatYaml(string rawText)
-        {
-            string yaml = rawText.Replace(@"\n", "\n");
-            return yaml;
         }
     }
 }

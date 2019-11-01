@@ -12,6 +12,6 @@
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         <TextBlock Text="{Binding ServiceId, Mode=OneTime, StringFormat=Service Id: {0}}" Grid.Row="0" />
-        <TextBox x:Name="YamlText" Text="{Binding SloText, Mode=OneWay}" Grid.Row="1"/>
+        <TextBox x:Name="YamlText" Text="{Binding SloText, Mode=OneWay}" Grid.Row="1" IsReadOnly="True"/>
     </Grid>
 </Window>
