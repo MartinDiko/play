@@ -12,7 +12,6 @@ namespace SloReviewTool
     public partial class MainWindow : Window
     {
         SloQueryManager queryManager_;
-        bool queryExecuting = false;
 
         public MainWindow()
         {
@@ -30,13 +29,15 @@ namespace SloReviewTool
 
         private async void QueryButton_Click(object sender, RoutedEventArgs e)
         {
-            if (queryExecuting) return;  // Do not allow multiple queries at once
-
+            QueryButton.IsEnabled = false;
+       
             QueryStatus.Text = "Executing Query...";
             var results = await ExecuteQuery(QueryTextBox.Text);
 
             QueryStatus.Text = string.Format("Query returned {0} record(s)", results.Count);
             ResultsDataGrid.ItemsSource = results;
+
+            QueryButton.IsEnabled = true;
         }
     }
 }
