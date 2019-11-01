@@ -19,7 +19,7 @@ namespace SloReviewTool
             queryManager_ = new SloQueryManager();
         }
 
-        Task<List<SloDefinition>> ExecuteQuery(string query)
+        Task<List<SloDefinition>> ExecuteQueryAsync(string query)
         {
             return Task.Run(() => {
                 return queryManager_.ExecuteQuery(query);
@@ -32,7 +32,7 @@ namespace SloReviewTool
             QueryButton.IsEnabled = false;
        
             QueryStatus.Text = "Executing Query...";
-            var results = await ExecuteQuery(QueryTextBox.Text);
+            var results = await ExecuteQueryAsync(QueryTextBox.Text);
 
             QueryStatus.Text = string.Format("Query returned {0} record(s)", results.Count);
             ResultsDataGrid.ItemsSource = results;
