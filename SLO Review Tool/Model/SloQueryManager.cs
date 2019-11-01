@@ -23,9 +23,9 @@ namespace SloReviewTool.Model
             client_ = KustoClientFactory.CreateCslQueryProvider(kcsb);
         }
 
-        public List<SloDefinition> ExecuteQuery(string query)
+        public List<SloRecord> ExecuteQuery(string query)
         {
-            var items = new List<SloDefinition>();
+            var items = new List<SloRecord>();
 
             // "GetSloJsonActionItemReport() | where YamlValue contains ServiceId"
             using (var results = client_.ExecuteQuery(query))
@@ -39,24 +39,19 @@ namespace SloReviewTool.Model
             return items;
         }
 
-        SloDefinition ReadSingleResult(IDataRecord record)
+        SloRecord ReadSingleResult(IDataRecord record)
         {
-            var slo = new SloDefinition();
+            var slo = new SloRecord();
             slo.ServiceId = record["ServiceId"] as string;
             slo.OrganizationName = record["OrganizationName"] as string;
             slo.ServiceGroupName = record["ServiceGroupName"] as string;
             slo.TeamGroupName = record["TeamGroupName"] as string;
             slo.ServiceName = record["ServiceName"] as string;
             slo.ServiceId = record["ServiceId"] as string;
-            slo.YamlValue = FormatYaml(record["YamlValue"] as string);
+            slo.SetYamlValue(record["YamlValue"] as string);
 
             return slo;
         }
 
-        string FormatYaml(string rawText)
-        {
-            string yaml = rawText.Replace(@"\n", "\n");
-            return yaml;
-        }
     }
 }

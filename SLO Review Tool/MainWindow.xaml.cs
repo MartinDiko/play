@@ -1,4 +1,6 @@
-﻿using SloReviewTool.Model;
+﻿using SLO_Review_Tool;
+using SloReviewTool.Model;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,7 +21,7 @@ namespace SloReviewTool
             queryManager_ = new SloQueryManager();
         }
 
-        Task<List<SloDefinition>> ExecuteQueryAsync(string query)
+        Task<List<SloRecord>> ExecuteQueryAsync(string query)
         {
             return Task.Run(() => {
                 return queryManager_.ExecuteQuery(query);
@@ -30,14 +32,25 @@ namespace SloReviewTool
         private async void QueryButton_Click(object sender, RoutedEventArgs e)
         {
             QueryButton.IsEnabled = false;
-       
             QueryStatus.Text = "Executing Query...";
-            var results = await ExecuteQueryAsync(QueryTextBox.Text);
 
-            QueryStatus.Text = string.Format("Query returned {0} record(s)", results.Count);
-            ResultsDataGrid.ItemsSource = results;
+            try {
+                var results = await ExecuteQueryAsync(QueryTextBox.Text);
+
+                QueryStatus.Text = string.Format("Query returned {0} record(s)", results.Count);
+                ResultsDataGrid.ItemsSource = results;
+
+            } catch(Exception ex) {
+                System.Windows.MessageBox.Show(ex.Message);
+            }
 
             QueryButton.IsEnabled = true;
+        }
+
+        private void ResultsDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var sloView = new SloView(ResultsDataGrid.CurrentItem as SloRecord);
+            sloView.Show();
         }
     }
 }

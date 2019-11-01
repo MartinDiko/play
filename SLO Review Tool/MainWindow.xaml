@@ -21,6 +21,6 @@
             <Button Name="QueryButton" Content="Query" HorizontalAlignment="Left" Margin="5,5,5,5" Width="75" Click="QueryButton_Click"  Grid.Column="1"/>
             <TextBlock x:Name="QueryStatus" VerticalAlignment="Center" Margin="5,5,5,5"  Grid.Column="2">Click Query to See Service SLO Definitions</TextBlock>
         </Grid>
-        <DataGrid Name="ResultsDataGrid" Grid.Row="1" />
+        <DataGrid Name="ResultsDataGrid" Grid.Row="1" MouseDoubleClick="ResultsDataGrid_MouseDoubleClick" />
     </Grid>
 </Window>
