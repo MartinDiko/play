@@ -5,7 +5,6 @@ namespace SloReviewTool.Model
 {
     public class SloRecord
     {
-        string yamlValue_;
         SloDefinition slo_;
 
         public string ServiceId { get; set; }
@@ -13,19 +12,15 @@ namespace SloReviewTool.Model
         public string ServiceGroupName { get; set; }
         public string TeamGroupName { get; set; }
         public string ServiceName { get; set; }
-        public string YamlValue {
-            get {
-                return yamlValue_;
-            }
-        }
+        public string YamlValue { get; private set; }
 
         public void SetYamlValue(string yaml)
         {
-            yamlValue_ = FormatYaml(yaml);
-            slo_ = new SloDefinition(yamlValue_);
+            YamlValue = FormatYaml(yaml);
+            slo_ = new SloDefinition(YamlValue);
         }
 
-        public SloDefinition GetYamlDefinition()
+        public SloDefinition GetSloDefinition()
         {
             return slo_;
         }

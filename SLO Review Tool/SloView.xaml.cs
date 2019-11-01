@@ -20,9 +20,9 @@ namespace SLO_Review_Tool
     /// </summary>
     public partial class SloView : Window
     {
-        SloRecord slo_;
+        SloDefinition slo_;
 
-        public SloView(SloRecord slo)
+        public SloView(SloDefinition slo)
         {
             slo_ = slo;
             this.DataContext = slo_;
@@ -31,7 +31,7 @@ namespace SLO_Review_Tool
             //YamlText.Text = slo_.YamlValue;
         }
 
-        public SloRecord Slo {
+        public SloDefinition Slo {
             get {
                 return slo_;
             }

@@ -49,7 +49,7 @@ namespace SloReviewTool
 
         private void ResultsDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            var sloView = new SloView(ResultsDataGrid.CurrentItem as SloRecord);
+            var sloView = new SloView((ResultsDataGrid.CurrentItem as SloRecord).GetSloDefinition());
             sloView.Show();
         }
     }

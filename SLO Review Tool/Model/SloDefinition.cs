@@ -17,17 +17,22 @@ namespace SloReviewTool.Model
             slo_ = ParseSloText(jsonText);
         }
 
-        public string ServiceId { get; set; }
+        public string SloText { get; private set; }
+
+        public string ServiceId {
+            get {
+                return slo_["service-id"].ToString();
+            }
+        }
 
         Dictionary<string, object> ParseSloText(string jsonText)
         {
-            // For now, parse JSON to get SLO yaml
-
+            // For now, parse JSON to get SLO yaml.  Service Tree should be fixed.
             var json = JObject.Parse(jsonText);
-            var yamlText = json["ServiceLevelObjectives"].ToString();
+            SloText = json["ServiceLevelObjectives"].ToString();
 
             var deserializer = new YamlDotNet.Serialization.Deserializer();
-            return deserializer.Deserialize<Dictionary<string, object>>(yamlText);
+            return deserializer.Deserialize<Dictionary<string, object>>(SloText);
         }
 
     }

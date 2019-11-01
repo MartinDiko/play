@@ -6,8 +6,12 @@
         xmlns:local="clr-namespace:SLO_Review_Tool"
         mc:Ignorable="d"
         Title="SloView" Height="450" Width="800">
-    <StackPanel>
-        
-        <TextBox x:Name="YamlText" Text="{Binding YamlValue, Mode=OneWay}"/>
-    </StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding ServiceId, Mode=OneTime, StringFormat=Service Id: {0}}" Grid.Row="0" />
+        <TextBox x:Name="YamlText" Text="{Binding SloText, Mode=OneWay}" Grid.Row="1"/>
+    </Grid>
 </Window>
