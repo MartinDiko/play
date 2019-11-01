@@ -1,0 +1,125 @@
+{"ServiceLevelObjectives":"---
+service-id: 724c33bf-1ab8-4691-adb1-0e61932919c2
+
+datasources:
+- id: cosmosdbmdm
+  type: mdm  
+  accountids:
+  - DocumentDB
+
+slo-groups:
+  # Availability SLO
+  - name: Availability SLO 
+    state: Test
+    slos:
+    - name: Availability5M
+      source-id: cosmosdbmdm
+      description: 25% of read and write requests in the last 5 minutes for single master/multi master DBs were successful
+      namespace: DocDB
+      signal: >-
+       metric(\"CosmosDBRequest\").dimensions(\"GlobalDatabaseAccountName\",\"IsExternal\",\"Region\", \"APIType\").samplingTypes(\"Count\")
+       | summarize sum_Requests= sum(Count) by GlobalDatabaseAccountName,IsExternal, Region, APIType
+       | join kind= inner (metric(\"FailedCosmosDBRequest\").dimensions(\"GlobalDatabaseAccountName\",\"IsExternal\",\"Region\", \"APIType\").samplingTypes(\"Count\"))
+       | where IsExternal == \"True\"
+       | where APIType != \"management\"
+       | summarize sum_Request = sum(sum_Requests), sum_FailedRequests= sum(Count) by GlobalDatabaseAccountName, Region
+       | where sum(sum_Request) > 1000
+       | project SLA = 100.00*(sum_Request- sum_FailedRequests)/ sum_Request
+      window: PT5M
+      targets:
+      - target-value: '25.00'
+        comparator: gte
+        
+    - name: Availability15M
+      source-id: cosmosdbmdm
+      description: 75% of read and write requests in the last 15 minutes for single master/multi master DBs were successful     
+      namespace: DocDB
+      signal: >-
+       metric(\"CosmosDBRequest\").dimensions(\"GlobalDatabaseAccountName\",\"IsExternal\",\"Region\", \"APIType\").samplingTypes(\"Count\")
+       | summarize sum_Requests= sum(Count) by GlobalDatabaseAccountName,IsExternal, Region, APIType
+       | join kind= inner (metric(\"FailedCosmosDBRequest\").dimensions(\"GlobalDatabaseAccountName\",\"IsExternal\",\"Region\", \"APIType\").samplingTypes(\"Count\"))
+       | where IsExternal == \"True\"
+       | where APIType != \"management\"
+       | summarize sum_Request = sum(sum_Requests), sum_FailedRequests= sum(Count) by GlobalDatabaseAccountName, Region
+       | where sum(sum_Request) > 1000
+       | project SLA = 100.00*(sum_Request- sum_FailedRequests)/ sum_Request
+      window: PT15M
+      targets:
+      - target-value: '75.00'
+        comparator: gte
+        
+    - name: Availability60M
+      source-id: cosmosdbmdm
+      description: 99% of read and write requests in the last 60 minutes for single master/multi master DBs were successful     
+      namespace: DocDB
+      signal: >-
+       metric(\"CosmosDBRequest\").dimensions(\"GlobalDatabaseAccountName\",\"IsExternal\",\"Region\", \"APIType\").samplingTypes(\"Count\")
+       | summarize sum_Requests= sum(Count) by GlobalDatabaseAccountName,IsExternal, Region, APIType
+       | join kind= inner (metric(\"FailedCosmosDBRequest\").dimensions(\"GlobalDatabaseAccountName\",\"IsExternal\",\"Region\", \"APIType\").samplingTypes(\"Count\"))
+       | where IsExternal == \"True\"
+       | where APIType != \"management\"
+       | summarize sum_Request = sum(sum_Requests), sum_FailedRequests= sum(Count) by GlobalDatabaseAccountName, Region
+       | where sum(sum_Request) > 1000
+       | project SLA = 100.00*(sum_Request- sum_FailedRequests)/ sum_Request
+      window: PT60M
+      targets:
+      - target-value: '99.00'
+        comparator: gte
+
+  # Throughput SLO
+  - name: Throughput SLO 
+    state: Test
+    slos:
+    - name: Throughput5M
+      source-id: cosmosdbmdm
+      description: 25% of requests in the last 5 minutes for single master/multi master DBs were successful without system throttles
+      namespace: DocDB
+      signal: >-
+       metric(\"CosmosDBRequest\").dimensions(\"GlobalDatabaseAccountName\", \"StatusCode\", \"SubStatusCode\").samplingTypes(\"Count\")
+       | where StatusCode == \"429\"
+       | where SubStatusCode == \"3037\" or SubStatusCode == \"3075\" or SubStatusCode == \"3074\" or SubStatusCode == \"3088\" or SubStatusCode == \"3076\" or SubStatusCode == \"3092\" or SubStatusCode == \"3094\"
+       | summarize sum_FailedRequest = sum(count) by GlobalDatabaseAccountName
+       | join kind= leftouter 
+       (metric(\"CosmosDBRequest\").dimensions(\"GlobalDatabaseAccountName\").samplingTypes(\"Count\"))
+       | summarize sumFailed = sum(sum_FailedRequest), sumAll = sum(Count) by GlobalDatabaseAccountName
+       | project sla = (sumAll - sumFailed)*100.00 / sumAll
+      window: PT5M
+      targets:
+      - target-value: '25.00'
+        comparator: gte
+
+    - name: Throughput15M
+      source-id: cosmosdbmdm
+      description: 75% of requests in the last 15 minutes for single master/multi master DBs were successful without system throttles
+      namespace: DocDB
+      signal: >-
+       metric(\"CosmosDBRequest\").dimensions(\"GlobalDatabaseAccountName\", \"StatusCode\", \"SubStatusCode\").samplingTypes(\"Count\")
+       | where StatusCode == \"429\"
+       | where SubStatusCode == \"3037\" or SubStatusCode == \"3075\" or SubStatusCode == \"3074\" or SubStatusCode == \"3088\" or SubStatusCode == \"3076\" or SubStatusCode == \"3092\" or SubStatusCode == \"3094\"
+       | summarize sum_FailedRequest = sum(count) by GlobalDatabaseAccountName
+       | join kind= leftouter 
+       (metric(\"CosmosDBRequest\").dimensions(\"GlobalDatabaseAccountName\").samplingTypes(\"Count\"))
+       | summarize sumFailed = sum(sum_FailedRequest), sumAll = sum(Count) by GlobalDatabaseAccountName
+       | project sla = (sumAll - sumFailed)*100.00 / sumAll
+      window: PT15M
+      targets:
+      - target-value: '75.00'
+        comparator: gte
+
+    - name: Throughput60M
+      source-id: cosmosdbmdm
+      description: 99% of requests in the last 60 minutes for single master/multi master DBs were successful without system throttles
+      namespace: DocDB
+      signal: >-
+       metric(\"CosmosDBRequest\").dimensions(\"GlobalDatabaseAccountName\", \"StatusCode\", \"SubStatusCode\").samplingTypes(\"Count\")
+       | where StatusCode == \"429\"
+       | where SubStatusCode == \"3037\" or SubStatusCode == \"3075\" or SubStatusCode == \"3074\" or SubStatusCode == \"3088\" or SubStatusCode == \"3076\" or SubStatusCode == \"3092\" or SubStatusCode == \"3094\"
+       | summarize sum_FailedRequest = sum(count) by GlobalDatabaseAccountName
+       | join kind= leftouter 
+       (metric(\"CosmosDBRequest\").dimensions(\"GlobalDatabaseAccountName\").samplingTypes(\"Count\"))
+       | summarize sumFailed = sum(sum_FailedRequest), sumAll = sum(Count) by GlobalDatabaseAccountName
+       | project sla = (sumAll - sumFailed)*100.00 / sumAll
+      window: PT60M
+      targets:
+      - target-value: '99.00'
+        comparator: gte"}
