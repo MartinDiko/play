@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SLO_Review_Tool.Properties
+namespace SloReviewTool.Properties
 {
 
 

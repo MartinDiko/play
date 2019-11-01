@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace SLO_Review_Tool
+namespace SloReviewTool
 {
     /// <summary>
     /// Interaction logic for App.xaml

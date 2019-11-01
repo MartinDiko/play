@@ -1,40 +1,42 @@
-﻿using Kusto.Data;
-using Kusto.Data.Common;
-using Kusto.Data.Net.Client;
-using System;
+﻿using SloReviewTool.Model;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace SLO_Review_Tool
+
+namespace SloReviewTool
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        SloQueryManager queryManager_;
+        bool queryExecuting = false;
+
         public MainWindow()
         {
             InitializeComponent();
+            queryManager_ = new SloQueryManager();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        Task<List<SloDefinition>> ExecuteQuery(string query)
         {
-            var kcsb = new KustoConnectionStringBuilder("https://azurequality.westus2.kusto.windows.net/AzureQuality").WithAadUserPromptAuthentication();
-            using (var client = KustoClientFactory.CreateCslQueryProvider(kcsb))
-            {
-                client.ExecuteQuery("GetSloJsonActionItemReport() | where YamlValue contains ServiceId");
-            }
+            return Task.Run(() => {
+                return queryManager_.ExecuteQuery(query);
+            });
+
+        }
+
+        private async void QueryButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (queryExecuting) return;  // Do not allow multiple queries at once
+
+            QueryStatus.Text = "Executing Query...";
+            var results = await ExecuteQuery(QueryTextBox.Text);
+
+            QueryStatus.Text = string.Format("Query returned {0} record(s)", results.Count);
+            ResultsDataGrid.ItemsSource = results;
         }
     }
 }
