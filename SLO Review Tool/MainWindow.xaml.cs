@@ -37,7 +37,7 @@ namespace SloReviewTool
             try {
                 var results = await ExecuteQueryAsync(QueryTextBox.Text);
 
-                QueryStatus.Content = string.Format("Query returned {0} record(s)", results.Count);
+                QueryStatus.Content = $"Query returned {results.Count} record(s)";
                 ResultsDataGrid.ItemsSource = results;
 
             } catch(Exception ex) {

@@ -13,14 +13,18 @@
             <Setter Property="FontSize" Value="20" />
             <Setter Property="Margin" Value="5,5,5,5" />
         </Style>
-        <Style x:Key="Label" TargetType="TextBlock">
-            <Setter Property="FontWeight" Value="Bold"/>
+        <Style x:Key="Value" TargetType="TextBlock">
             <Setter Property="FontSize" Value="14" />
             <Setter Property="Margin" Value="5,0,5,0" />
+        </Style>
+        <Style x:Key="Label" TargetType="TextBlock" BasedOn="{StaticResource Value}">
+            <Setter Property="FontWeight" Value="Bold"/>
         </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -30,7 +34,20 @@
         <TextBlock Text="{Binding ServiceName, Mode=OneTime, StringFormat=Service Name:              {0}}" Grid.Row="0" Style="{StaticResource Label}" />
         <TextBlock Text="{Binding ServiceGroupName, Mode=OneTime, StringFormat=Service Group Name:  {0}}" Grid.Row="1" Style="{StaticResource Label}" />
         <TextBlock Text="{Binding ServiceId, Mode=OneTime, StringFormat=Service Id:                    {0}}" Grid.Row="2" Style="{StaticResource Label}" />
-        <TextBlock Text="SLO Definition:" Grid.Row="3" Style="{StaticResource Header}" />
-        <TextBox x:Name="YamlText" Text="{Binding SloDefinition.SloText, Mode=OneWay}" Grid.Row="4" IsReadOnly="True"/>
+        <TextBlock Text="Data Sources:" Grid.Row="3" Style="{StaticResource Header}" />
+        <ListView x:Name="DataSourcesListView" Grid.Row="4" MinHeight="20">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel>
+                        <TextBlock Text="Id: " Style="{StaticResource Label}" />
+                        <TextBlock Text="{Binding Id}" Style="{StaticResource Value}" />
+                        <TextBlock Text="Type: " Style="{StaticResource Label}" />
+                        <TextBlock Text="{Binding Type}" Style="{StaticResource Value}"/>
+                    </WrapPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <TextBlock Text="SLO Definition:" Grid.Row="5" Style="{StaticResource Header}" />
+        <TextBox x:Name="YamlText" Text="{Binding SloDefinition.SloText, Mode=OneWay}" Grid.Row="6" IsReadOnly="True"/>
     </Grid>
 </Window>

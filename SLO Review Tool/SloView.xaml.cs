@@ -27,6 +27,7 @@ namespace SloReviewTool
             slo_ = slo;
             this.DataContext = slo_;
             InitializeComponent();
+            this.DataSourcesListView.ItemsSource = slo_.SloDefinition.DataSources;
         }
 
         public SloDefinition Definition {
