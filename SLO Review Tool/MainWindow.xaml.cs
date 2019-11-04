@@ -53,5 +53,15 @@ namespace SloReviewTool
             var sloView = new SloView(ResultsDataGrid.CurrentItem as SloRecord);
             sloView.Show();
         }
+
+        private void ResultsDataGrid_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (ResultsDataGrid.CurrentItem == null) return;
+            if (System.Windows.Input.Keyboard.IsKeyDown(System.Windows.Input.Key.LeftAlt))
+            {
+                var url = @"https://servicetree.msftcloudes.com/main.html#/ServiceModel/Home/" + (ResultsDataGrid.CurrentItem as SloRecord).ServiceId;
+                System.Diagnostics.Process.Start(url);
+            }
+        }
     }
 }

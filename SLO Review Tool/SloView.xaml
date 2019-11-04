@@ -48,6 +48,6 @@
             </ListView.ItemTemplate>
         </ListView>
         <TextBlock Text="SLO Definition:" Grid.Row="5" Style="{StaticResource Header}" />
-        <TextBox x:Name="YamlText" Text="{Binding SloDefinition.SloText, Mode=OneWay}" Grid.Row="6" IsReadOnly="True"/>
+        <TextBox x:Name="YamlText" Text="{Binding SloDefinition.SloText, Mode=OneWay}" Grid.Row="6" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
     </Grid>
 </Window>
