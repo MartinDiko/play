@@ -1,4 +1,4 @@
-﻿using SLO_Review_Tool;
+﻿using SloReviewTool;
 using SloReviewTool.Model;
 using System;
 using System.Collections.Generic;
@@ -50,7 +50,7 @@ namespace SloReviewTool
         private void ResultsDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (ResultsDataGrid.CurrentItem == null) return;
-            var sloView = new SloView((ResultsDataGrid.CurrentItem as SloRecord).GetSloDefinition());
+            var sloView = new SloView(ResultsDataGrid.CurrentItem as SloRecord);
             sloView.Show();
         }
     }

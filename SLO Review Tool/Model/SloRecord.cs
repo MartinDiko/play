@@ -20,9 +20,9 @@ namespace SloReviewTool.Model
             slo_ = new SloDefinition(YamlValue);
         }
 
-        public SloDefinition GetSloDefinition()
+        public SloDefinition SloDefinition
         {
-            return slo_;
+            get { return slo_; }
         }
     }
 }

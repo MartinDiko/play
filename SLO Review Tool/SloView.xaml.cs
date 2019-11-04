@@ -13,27 +13,25 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace SLO_Review_Tool
+namespace SloReviewTool
 {
     /// <summary>
     /// Interaction logic for SloView.xaml
     /// </summary>
     public partial class SloView : Window
     {
-        SloDefinition slo_;
+        SloRecord slo_;
 
-        public SloView(SloDefinition slo)
+        public SloView(SloRecord slo)
         {
             slo_ = slo;
             this.DataContext = slo_;
             InitializeComponent();
-
-            //YamlText.Text = slo_.YamlValue;
         }
 
-        public SloDefinition Slo {
+        public SloDefinition Definition {
             get {
-                return slo_;
+                return slo_.SloDefinition;
             }
         }
     }
