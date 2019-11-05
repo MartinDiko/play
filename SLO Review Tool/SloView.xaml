@@ -17,6 +17,9 @@
             <Setter Property="FontSize" Value="16" />
             <Setter Property="Margin" Value="5,10,5,10" />
         </Style>
+        <Style x:Key="Title" TargetType="TextBlock" BasedOn="{StaticResource Header}">
+            <Setter Property="FontSize" Value="26" />
+        </Style>
         <Style x:Key="Value" TargetType="TextBlock">
             <Setter Property="FontSize" Value="14" />
             <Setter Property="Margin" Value="5,0,5,0" />
@@ -25,26 +28,17 @@
             <Setter Property="FontWeight" Value="DemiBold"/>
         </Style>
     </Window.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="1*" />
-        </Grid.RowDefinitions>
-        <TextBlock Text="{Binding ServiceName}" Style="{StaticResource Header}" Grid.Row="0" />
-        <WrapPanel Grid.Row="1">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <StackPanel>
+        <TextBlock Text="{Binding ServiceName}" Style="{StaticResource Title}" />
+        <WrapPanel>
             <TextBlock Text="Service Group Name: " Style="{StaticResource Label}" />
             <TextBlock Text="{Binding ServiceGroupName}" Style="{StaticResource Value}"/>
             <TextBlock Text="Service Id: " Style="{StaticResource Label}" />
             <TextBlock Text="{Binding ServiceId}" Style="{StaticResource Value}"/>
         </WrapPanel>
-        <TextBlock Text="Data Sources:" Grid.Row="2" Style="{StaticResource SubHeader}" />
-        <ListView x:Name="DataSourcesListView" Grid.Row="3" MinHeight="20">
+        <TextBlock Text="Data Sources:" Style="{StaticResource SubHeader}" />
+        <ListView x:Name="DataSourcesListView" MinHeight="20">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel>
@@ -56,8 +50,8 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <TextBlock Text="SLO Groups:" Grid.Row="4" Style="{StaticResource Header}" />
-        <ListView x:Name="SloGroupssListView" Grid.Row="5" MinHeight="20">
+        <TextBlock Text="SLO Groups:" Style="{StaticResource Header}" />
+        <ListView x:Name="SloGroupssListView" MinHeight="20">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="5,20,5,20">
@@ -98,7 +92,8 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <TextBlock Text="SLO Definition:" Grid.Row="6" Style="{StaticResource Header}" />
+        <TextBlock Text="SLO Definition:" Style="{StaticResource Header}" />
         <TextBox x:Name="YamlText" Text="{Binding SloDefinition.SloText, Mode=OneWay}" Grid.Row="6" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
-    </Grid>
+    </StackPanel>
+    </ScrollViewer>
 </Window>
