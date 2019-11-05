@@ -11,14 +11,18 @@
         <Style x:Key="Header" TargetType="TextBlock">
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="FontSize" Value="20" />
-            <Setter Property="Margin" Value="5,5,5,5" />
+            <Setter Property="Margin" Value="5,20,5,20" />
+        </Style>
+        <Style x:Key="SubHeader" TargetType="TextBlock" BasedOn="{StaticResource Header}">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Margin" Value="5,10,5,10" />
         </Style>
         <Style x:Key="Value" TargetType="TextBlock">
             <Setter Property="FontSize" Value="14" />
             <Setter Property="Margin" Value="5,0,5,0" />
         </Style>
         <Style x:Key="Label" TargetType="TextBlock" BasedOn="{StaticResource Value}">
-            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
         </Style>
     </Window.Resources>
     <Grid>
@@ -29,18 +33,18 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <WrapPanel Grid.Row="0">
-            <TextBlock Text="Service Name: " Style="{StaticResource Label}" />
-            <TextBlock Text="{Binding ServiceName}" Style="{StaticResource Value}" />
+        <TextBlock Text="{Binding ServiceName}" Style="{StaticResource Header}" Grid.Row="0" />
+        <WrapPanel Grid.Row="1">
             <TextBlock Text="Service Group Name: " Style="{StaticResource Label}" />
             <TextBlock Text="{Binding ServiceGroupName}" Style="{StaticResource Value}"/>
             <TextBlock Text="Service Id: " Style="{StaticResource Label}" />
             <TextBlock Text="{Binding ServiceId}" Style="{StaticResource Value}"/>
         </WrapPanel>
-        <TextBlock Text="Data Sources:" Grid.Row="1" Style="{StaticResource Header}" />
-        <ListView x:Name="DataSourcesListView" Grid.Row="2" MinHeight="20">
+        <TextBlock Text="Data Sources:" Grid.Row="2" Style="{StaticResource SubHeader}" />
+        <ListView x:Name="DataSourcesListView" Grid.Row="3" MinHeight="20">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel>
@@ -52,24 +56,49 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <TextBlock Text="SLO Groups:" Grid.Row="3" Style="{StaticResource Header}" />
-        <ListView x:Name="SloGroupssListView" Grid.Row="4" MinHeight="20">
+        <TextBlock Text="SLO Groups:" Grid.Row="4" Style="{StaticResource Header}" />
+        <ListView x:Name="SloGroupssListView" Grid.Row="5" MinHeight="20">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <WrapPanel>
-                        <TextBlock Text="Name: " Style="{StaticResource Label}" />
-                        <TextBlock Text="{Binding Name}" Style="{StaticResource Value}" />
-                        <TextBlock Text="State: " Style="{StaticResource Label}" />
-                        <TextBlock Text="{Binding State}" Style="{StaticResource Value}"/>
-                        <ListView ItemsSource="{Binding Slos}">
-                            <TextBlock Text="Name: " Style="{StaticResource Label}" />
-                            <TextBlock Text="{Binding Name}" Style="{StaticResource Value}" />
+                    <StackPanel Margin="5,20,5,20">
+                        <TextBlock Text="{Binding Name}" Style="{StaticResource SubHeader}" />
+                        <WrapPanel>
+                            <TextBlock Text="State: " Style="{StaticResource Label}" />
+                            <TextBlock Text="{Binding State}" Style="{StaticResource Value}"/>
+                        </WrapPanel>
+                        <ListView x:Name="SlosListView" ItemsSource="{Binding Slos}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="5,10,5,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="1*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition Height="1*" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text="{Binding Name}" Style="{StaticResource SubHeader}" Grid.Row="0" Grid.Column="0"/>
+                                        <TextBlock Text="Source Id: " Style="{StaticResource Label}" Grid.Row="1" Grid.Column="0" />
+                                        <TextBlock Text="{Binding SourceId}" Style="{StaticResource Value}" Grid.Row="1" Grid.Column="1"/>
+                                        <TextBlock Text="Description: " Style="{StaticResource Label}" Grid.Row="2" Grid.Column="0" />
+                                        <TextBlock Text="{Binding Description}" Style="{StaticResource Value}" Grid.Row="2" Grid.Column="1"/>
+                                        <TextBlock Text="Namespace: " Style="{StaticResource Label}" Grid.Row="3" Grid.Column="0" />
+                                        <TextBlock Text="{Binding Namespace}" Style="{StaticResource Value}" Grid.Row="3" Grid.Column="1"/>
+                                        <TextBlock Text="Signal: " Style="{StaticResource Label}" Grid.Row="4" Grid.Column="0" />
+                                        <TextBlock Text="{Binding Signal}" Style="{StaticResource Value}" Grid.Row="4" Grid.Column="1" TextWrapping="WrapWithOverflow"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
                         </ListView>
-                    </WrapPanel>
+                    </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <TextBlock Text="SLO Definition:" Grid.Row="5" Style="{StaticResource Header}" />
+        <TextBlock Text="SLO Definition:" Grid.Row="6" Style="{StaticResource Header}" />
         <TextBox x:Name="YamlText" Text="{Binding SloDefinition.SloText, Mode=OneWay}" Grid.Row="6" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
     </Grid>
 </Window>

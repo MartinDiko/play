@@ -32,9 +32,7 @@ namespace SloReviewTool
         }
 
         public SloDefinition Definition {
-            get {
-                return slo_.SloDefinition;
-            }
+            get => slo_.SloDefinition;
         }
     }
 }
