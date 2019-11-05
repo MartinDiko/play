@@ -12,52 +12,27 @@ namespace SloReviewTool.Model
 {
     public class SloDefinition
     {
-        Dictionary<string, object> sloDictionary_;
-        List<SloDataSource> dataSources_ = new List<SloDataSource>();
+        public string SloText { get; private set; }
+        public string ServiceId {
+            get => SloDictionary["service-id"].ToString();
+        }
+        public Dictionary<object, object> SloDictionary { get; private set; }
+        public List<SloDataSource> DataSources { get; private set; }
+        public List<SloGroup> SloGroups { get; private set; }
+
 
         public SloDefinition(string jsonText)
         {
             SloText = ConvertServiceTreeJsonToYaml(jsonText);
-            sloDictionary_ = ParseSloText(SloText);
-            PopulateData();
+            SloDictionary = ParseSloText(SloText);
+            DataSources = SloDataSource.ParseList(SloDictionary["datasources"] as List<object>);
+            SloGroups = SloGroup.ParseList(SloDictionary["slo-groups"] as List<object>);
         }
 
-        public string SloText { get; private set; }
-
-        public string ServiceId {
-            get {
-                return sloDictionary_["service-id"].ToString();
-            }
-        }
-
-        public Dictionary<string, object> SloDictionary {
-            get => sloDictionary_;
-        }
-
-        public List<SloDataSource> DataSources {
-            get => dataSources_;
-        }
-
-        Dictionary<string, object> ParseSloText(string sloText)
+        Dictionary<object, object> ParseSloText(string sloText)
         {
             var deserializer = new YamlDotNet.Serialization.Deserializer();
-            return deserializer.Deserialize<Dictionary<string, object>>(sloText);
-        }
-
-        void PopulateData()
-        {
-            ParseDataSources(sloDictionary_["datasources"] as List<object>);
-        }
-
-        void ParseDataSources(List<object> dataSources)
-        {
-            foreach (var dataSource in dataSources) {
-                try {
-                    dataSources_.Add(new SloDataSource(dataSource as Dictionary<object, object>));
-                } catch(Exception ex) {
-                    Debug.WriteLine($"Caught exception parsing datasource: {ex.Message}");
-                }
-            }
+            return deserializer.Deserialize<Dictionary<object, object>>(sloText);
         }
 
         string ConvertServiceTreeJsonToYaml(string rawText)

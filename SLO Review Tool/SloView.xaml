@@ -29,6 +29,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         <TextBlock Text="{Binding ServiceName, Mode=OneTime, StringFormat=Service Name:              {0}}" Grid.Row="0" Style="{StaticResource Label}" />
@@ -47,7 +49,20 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <TextBlock Text="SLO Definition:" Grid.Row="5" Style="{StaticResource Header}" />
-        <TextBox x:Name="YamlText" Text="{Binding SloDefinition.SloText, Mode=OneWay}" Grid.Row="6" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
+        <TextBlock Text="SLO Groups:" Grid.Row="5" Style="{StaticResource Header}" />
+        <ListView x:Name="SloGroupssListView" Grid.Row="6" MinHeight="20">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel>
+                        <TextBlock Text="Name: " Style="{StaticResource Label}" />
+                        <TextBlock Text="{Binding Name}" Style="{StaticResource Value}" />
+                        <TextBlock Text="State: " Style="{StaticResource Label}" />
+                        <TextBlock Text="{Binding State}" Style="{StaticResource Value}"/>
+                    </WrapPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <TextBlock Text="SLO Definition:" Grid.Row="7" Style="{StaticResource Header}" />
+        <TextBox x:Name="YamlText" Text="{Binding SloDefinition.SloText, Mode=OneWay}" Grid.Row="8" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
     </Grid>
 </Window>

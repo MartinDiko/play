@@ -1,8 +1,10 @@
 ﻿using Kusto.Data;
 using Kusto.Data.Common;
 using Kusto.Data.Net.Client;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Dynamic;
 
 
@@ -32,7 +34,11 @@ namespace SloReviewTool.Model
             {
                 for (int i = 0; results.Read(); i++)
                 {
-                    items.Add(ReadSingleResult((IDataRecord)results));
+                    try {
+                        items.Add(ReadSingleResult((IDataRecord)results));
+                    } catch (Exception ex) {
+                        Debug.WriteLine($"Schema violation: {ex.Message}");
+                    }
                 }
             }
 

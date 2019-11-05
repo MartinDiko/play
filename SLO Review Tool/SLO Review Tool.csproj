@@ -146,9 +146,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Slo.cs" />
     <Compile Include="Model\SloDataSource.cs" />
     <Compile Include="Model\SloDataSourceAccountId.cs" />
     <Compile Include="Model\SloDefinition.cs" />
+    <Compile Include="Model\SloGroup.cs" />
+    <Compile Include="Model\SloTarget.cs" />
     <Compile Include="SloView.xaml.cs">
       <DependentUpon>SloView.xaml</DependentUpon>
     </Compile>
