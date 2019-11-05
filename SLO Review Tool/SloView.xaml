@@ -29,15 +29,18 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <TextBlock Text="{Binding ServiceName, Mode=OneTime, StringFormat=Service Name:              {0}}" Grid.Row="0" Style="{StaticResource Label}" />
-        <TextBlock Text="{Binding ServiceGroupName, Mode=OneTime, StringFormat=Service Group Name:  {0}}" Grid.Row="1" Style="{StaticResource Label}" />
-        <TextBlock Text="{Binding ServiceId, Mode=OneTime, StringFormat=Service Id:                    {0}}" Grid.Row="2" Style="{StaticResource Label}" />
-        <TextBlock Text="Data Sources:" Grid.Row="3" Style="{StaticResource Header}" />
-        <ListView x:Name="DataSourcesListView" Grid.Row="4" MinHeight="20">
+        <WrapPanel Grid.Row="0">
+            <TextBlock Text="Service Name: " Style="{StaticResource Label}" />
+            <TextBlock Text="{Binding ServiceName}" Style="{StaticResource Value}" />
+            <TextBlock Text="Service Group Name: " Style="{StaticResource Label}" />
+            <TextBlock Text="{Binding ServiceGroupName}" Style="{StaticResource Value}"/>
+            <TextBlock Text="Service Id: " Style="{StaticResource Label}" />
+            <TextBlock Text="{Binding ServiceId}" Style="{StaticResource Value}"/>
+        </WrapPanel>
+        <TextBlock Text="Data Sources:" Grid.Row="1" Style="{StaticResource Header}" />
+        <ListView x:Name="DataSourcesListView" Grid.Row="2" MinHeight="20">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel>
@@ -49,8 +52,8 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <TextBlock Text="SLO Groups:" Grid.Row="5" Style="{StaticResource Header}" />
-        <ListView x:Name="SloGroupssListView" Grid.Row="6" MinHeight="20">
+        <TextBlock Text="SLO Groups:" Grid.Row="3" Style="{StaticResource Header}" />
+        <ListView x:Name="SloGroupssListView" Grid.Row="4" MinHeight="20">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel>
@@ -58,11 +61,15 @@
                         <TextBlock Text="{Binding Name}" Style="{StaticResource Value}" />
                         <TextBlock Text="State: " Style="{StaticResource Label}" />
                         <TextBlock Text="{Binding State}" Style="{StaticResource Value}"/>
+                        <ListView ItemsSource="{Binding Slos}">
+                            <TextBlock Text="Name: " Style="{StaticResource Label}" />
+                            <TextBlock Text="{Binding Name}" Style="{StaticResource Value}" />
+                        </ListView>
                     </WrapPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <TextBlock Text="SLO Definition:" Grid.Row="7" Style="{StaticResource Header}" />
-        <TextBox x:Name="YamlText" Text="{Binding SloDefinition.SloText, Mode=OneWay}" Grid.Row="8" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
+        <TextBlock Text="SLO Definition:" Grid.Row="5" Style="{StaticResource Header}" />
+        <TextBox x:Name="YamlText" Text="{Binding SloDefinition.SloText, Mode=OneWay}" Grid.Row="6" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
     </Grid>
 </Window>
