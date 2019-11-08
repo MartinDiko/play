@@ -15,8 +15,8 @@ namespace SloReviewTool.Model
 
         public SloTarget(Dictionary<object, object> target)
         {
-            TargetValue = target["target-value"] as string;
-            Comparator = target["comparator"] as string;
+            TargetValue = SloValidator.GetString(this.GetType().Name, target, "target-value");
+            Comparator = SloValidator.GetString(this.GetType().Name, target, "comparator");
         }
 
         public static List<SloTarget> ParseList(List<object> targets)

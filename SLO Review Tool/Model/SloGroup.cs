@@ -12,9 +12,9 @@ namespace SloReviewTool.Model
 
         public SloGroup(Dictionary<object, object> sloGroup)
         {
-            Name = sloGroup["name"] as string;
-            State = sloGroup["state"] as string;
-            Slos = Slo.ParseList(sloGroup["slos"] as List<object>);
+            Name = SloValidator.GetString(this.GetType().Name, sloGroup, "name");
+            State = SloValidator.GetString(this.GetType().Name, sloGroup, "state");
+            Slos = Slo.ParseList(SloValidator.GetList(this.GetType().Name, sloGroup, "slos"));
         }
 
         public static List<SloGroup> ParseList(List<object> sloGroups)

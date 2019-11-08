@@ -15,8 +15,8 @@ namespace SloReviewTool.Model
 
         public SloDataSource(Dictionary<object, object> dataSource)
         {
-            Id = dataSource["id"] as string;
-            Type = dataSource["type"] as string;
+            Id = SloValidator.GetString(this.GetType().Name, dataSource, "id");
+            Type = SloValidator.GetString(this.GetType().Name, dataSource, "type");
         }
 
         public static List<SloDataSource> ParseList(List<object> dataSources)

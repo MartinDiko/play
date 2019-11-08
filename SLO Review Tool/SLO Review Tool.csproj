@@ -152,6 +152,10 @@
     <Compile Include="Model\SloDefinition.cs" />
     <Compile Include="Model\SloGroup.cs" />
     <Compile Include="Model\SloTarget.cs" />
+    <Compile Include="Model\SloValidationException.cs" />
+    <Compile Include="Model\SloValidator.cs" />
+    <Compile Include="Model\ThreadContext.cs" />
+    <Compile Include="Model\SloParsingContext.cs" />
     <Compile Include="SloView.xaml.cs">
       <DependentUpon>SloView.xaml</DependentUpon>
     </Compile>

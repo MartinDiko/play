@@ -2,9 +2,10 @@
 using SloReviewTool.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
-
+using System.Windows.Documents;
 
 namespace SloReviewTool
 {
@@ -21,7 +22,7 @@ namespace SloReviewTool
             queryManager_ = new SloQueryManager();
         }
 
-        Task<List<SloRecord>> ExecuteQueryAsync(string query)
+        Task<Tuple<List<SloRecord>, List<SloValidationException>>> ExecuteQueryAsync(string query)
         {
             return Task.Run(() => {
                 return queryManager_.ExecuteQuery(query);
@@ -37,8 +38,9 @@ namespace SloReviewTool
             try {
                 var results = await ExecuteQueryAsync(QueryTextBox.Text);
 
-                QueryStatus.Content = $"Query returned {results.Count} record(s)";
-                ResultsDataGrid.ItemsSource = results;
+                QueryStatus.Content = $"Query returned {results.Item1.Count + results.Item2.Count} record(s), {results.Item2.Count} failed to parse";
+                ResultsDataGrid.ItemsSource = results.Item1;
+                ErrorListView.ItemsSource = results.Item2;
 
             } catch(Exception ex) {
                 System.Windows.MessageBox.Show(ex.Message);

@@ -19,13 +19,13 @@ namespace SloReviewTool.Model
 
         public Slo(Dictionary<object, object> slo)
         {
-            Name = slo["name"] as string;
-            SourceId = slo["source-id"] as string;
-            Description = slo["description"] as string;
-            Namespace = slo["namespace"] as string;
-            Signal = slo["signal"] as string;
-            Window = slo["window"] as string;
-            Targets = SloTarget.ParseList(slo["targets"] as List<object>);
+            Name = SloValidator.GetString(this.GetType().Name, slo, "name");
+            SourceId = SloValidator.GetString(this.GetType().Name, slo, "source-id");
+            Description = SloValidator.GetString(this.GetType().Name, slo, "description");
+            Namespace = SloValidator.GetString(this.GetType().Name, slo, "namespace");
+            Signal = SloValidator.GetString(this.GetType().Name, slo, "signal");
+            Window = SloValidator.GetString(this.GetType().Name, slo, "window");
+            Targets = SloTarget.ParseList(SloValidator.GetList(this.GetType().Name, slo, "targets"));
         }
 
         public static List<Slo> ParseList(List<object> slos)

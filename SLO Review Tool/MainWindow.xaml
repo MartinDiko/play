@@ -6,10 +6,19 @@
         xmlns:local="clr-namespace:SloReviewTool"
         mc:Ignorable="d"
         Title="SLO Review Tool " Height="450" Width="800">
+    <Window.Resources>
+        <Style x:Key="Header" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Margin" Value="5,5,5,5" />
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition MaxHeight="100" />
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
@@ -21,7 +30,15 @@
             <Button Name="QueryButton" Content="Query" HorizontalAlignment="Left" Margin="5,5,5,5" Width="75" Click="QueryButton_Click"  Grid.Column="1"/>
         </Grid>
         <DataGrid Name="ResultsDataGrid" Grid.Row="1" MouseDoubleClick="ResultsDataGrid_MouseDoubleClick" MouseUp="ResultsDataGrid_MouseUp" />
-        <StatusBar x:Name="Status" VerticalAlignment="Bottom" Grid.Row="2">
+        <TextBlock Text="Errors:" Grid.Row="2" Style="{StaticResource Header}" />
+        <ListView x:Name="ErrorListView" Grid.Row="3">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Message}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <StatusBar x:Name="Status" VerticalAlignment="Bottom" Grid.Row="4">
             <StatusBarItem>Double-Click Entry to Open SLO View</StatusBarItem>
             <StatusBarItem>--- Hold Left Alt + Click Entry to Open ServiceTree</StatusBarItem>
             <StatusBarItem x:Name="QueryStatus" HorizontalAlignment="Right">Click Query to See Service SLO Definitions</StatusBarItem>

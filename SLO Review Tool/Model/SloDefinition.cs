@@ -12,21 +12,23 @@ namespace SloReviewTool.Model
 {
     public class SloDefinition
     {
-        public string SloText { get; private set; }
+        public string SloYaml { get; private set; }
         public string ServiceId {
-            get => SloDictionary["service-id"].ToString();
+            get => SloValidator.GetString(this.GetType().Name, SloDictionary, "service-id");
         }
         public Dictionary<object, object> SloDictionary { get; private set; }
         public List<SloDataSource> DataSources { get; private set; }
         public List<SloGroup> SloGroups { get; private set; }
 
 
-        public SloDefinition(string jsonText)
+        public SloDefinition(string sloJson)
         {
-            SloText = ConvertServiceTreeJsonToYaml(jsonText);
-            SloDictionary = ParseSloText(SloText);
-            DataSources = SloDataSource.ParseList(SloDictionary["datasources"] as List<object>);
-            SloGroups = SloGroup.ParseList(SloDictionary["slo-groups"] as List<object>);
+            SloYaml = ConvertServiceTreeJsonToYaml(sloJson);
+            ThreadContext<SloParsingContext>.ForThread().Yaml = SloYaml;
+            SloDictionary = ParseSloText(SloYaml);
+
+            DataSources = SloDataSource.ParseList(SloValidator.GetList(this.GetType().Name, SloDictionary, "datasources"));
+            SloGroups = SloGroup.ParseList(SloValidator.GetList(this.GetType().Name, SloDictionary, "slo-groups"));
         }
 
         Dictionary<object, object> ParseSloText(string sloText)
