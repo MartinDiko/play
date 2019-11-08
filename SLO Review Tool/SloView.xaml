@@ -117,7 +117,7 @@
                 </ListView.ItemTemplate>
             </ListView>
             <TextBlock Text="SLO Definition:" Style="{StaticResource Header}" />
-            <TextBox x:Name="YamlText" Text="{Binding SloDefinition.SloText, Mode=OneWay}" Grid.Row="6" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
+            <TextBox x:Name="YamlText" Text="{Binding SloDefinition.SloYaml, Mode=OneWay}" Grid.Row="6" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
         </StackPanel>
     </ScrollViewer>
 </Window>
