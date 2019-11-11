@@ -17,6 +17,7 @@ namespace SloReviewTool.Model
         {
             Id = SloValidator.GetString(this.GetType().Name, dataSource, "id");
             Type = SloValidator.GetString(this.GetType().Name, dataSource, "type");
+            AccountIds = SloDataSourceAccountId.ParseList(SloValidator.GetList(this.GetType().Name, dataSource, "accountids"));
         }
 
         public static List<SloDataSource> ParseList(List<object> dataSources)

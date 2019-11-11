@@ -41,12 +41,24 @@
             <ListView x:Name="DataSourcesListView" MinHeight="20">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <WrapPanel>
-                            <TextBlock Text="Id: " Style="{StaticResource Label}" />
-                            <TextBlock Text="{Binding Id}" Style="{StaticResource Value}" />
-                            <TextBlock Text="Type: " Style="{StaticResource Label}" />
-                            <TextBlock Text="{Binding Type}" Style="{StaticResource Value}"/>
-                        </WrapPanel>
+                        <StackPanel>
+                            <WrapPanel>
+                                <TextBlock Text="Id: " Style="{StaticResource Label}" />
+                                <TextBlock Text="{Binding Id}" Style="{StaticResource Value}" />
+                                <TextBlock Text="Type: " Style="{StaticResource Label}" />
+                                <TextBlock Text="{Binding Type}" Style="{StaticResource Value}"/>
+                            </WrapPanel>
+                            <TextBlock Text="AccountIds: " Style="{StaticResource Label}" />
+                            <ListView MinHeight="20" ItemsSource="{Binding AccountIds}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding AccountId}" Style="{StaticResource Value}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
