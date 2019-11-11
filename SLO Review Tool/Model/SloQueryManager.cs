@@ -51,7 +51,7 @@ namespace SloReviewTool.Model
         {
             var slo = new SloRecord();
             ThreadContext<SloParsingContext>.Set(new SloParsingContext(slo));
-            slo.ServiceId = record["ServiceId"] as string;
+            slo.ServiceId = record.GetString(record.GetOrdinal("ServiceId"));
             slo.OrganizationName = record["OrganizationName"] as string;
             slo.ServiceGroupName = record["ServiceGroupName"] as string;
             slo.TeamGroupName = record["TeamGroupName"] as string;

@@ -18,7 +18,12 @@ namespace SloReviewTool.Model
         public static List<object> GetList(string section, Dictionary<object, object> container, string property)
         {
             if (!container.ContainsKey(property)) throw new SloValidationException(ThreadContext<SloParsingContext>.ForThread(), section, container, property);
-            return container[property] as List<object>;
+
+            List<object> result;
+            result = container[property] as List<object>;
+            if (result == null) throw new SloValidationException(ThreadContext<SloParsingContext>.ForThread(), section, container, property);
+
+            return result;
         }
     }
 }
