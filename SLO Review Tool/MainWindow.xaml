@@ -29,7 +29,7 @@
             <TextBox Name="QueryTextBox" Text="GetSloJsonActionItemReport() | where YamlValue contains ServiceId" Margin="5,5,5,5" Grid.Column="0" />
             <Button Name="QueryButton" Content="Query" HorizontalAlignment="Left" Margin="5,5,5,5" Width="75" Click="QueryButton_Click"  Grid.Column="1"/>
         </Grid>
-        <DataGrid Name="ResultsDataGrid" Grid.Row="1" MouseDoubleClick="ResultsDataGrid_MouseDoubleClick" MouseUp="ResultsDataGrid_MouseUp">
+        <DataGrid Name="ResultsDataGrid" Grid.Row="1" MouseDoubleClick="ResultsDataGrid_MouseDoubleClick" MouseUp="ResultsDataGrid_MouseUp" AutoGenerateColumns="False">
             <DataGrid.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.ContainerStyle>
@@ -50,7 +50,13 @@
                         </Style>
                     </GroupStyle.ContainerStyle>
                 </GroupStyle>
-            </DataGrid.GroupStyle>        </DataGrid>
+            </DataGrid.GroupStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Service Name" Binding="{Binding ServiceName}" />
+                <DataGridTextColumn Header="Service Id" Binding="{Binding ServiceId}" />
+                <DataGridTextColumn Header="Yaml" Binding="{Binding YamlValue}" />
+            </DataGrid.Columns>
+        </DataGrid>
         <TextBlock Text="Errors:" Grid.Row="2" Style="{StaticResource Header}" />
         <ListView x:Name="ErrorListView" Grid.Row="3">
             <ListView.ItemTemplate>
