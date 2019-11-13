@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Documents;
 
 namespace SloReviewTool
@@ -39,7 +40,9 @@ namespace SloReviewTool
                 var results = await ExecuteQueryAsync(QueryTextBox.Text);
 
                 QueryStatus.Content = $"Query returned {results.Item1.Count + results.Item2.Count} record(s), {results.Item2.Count} failed to parse";
-                ResultsDataGrid.ItemsSource = results.Item1;
+                ListCollectionView sloRecords = new ListCollectionView(results.Item1);
+                sloRecords.GroupDescriptions.Add(new PropertyGroupDescription("ServiceGroupName"));
+                ResultsDataGrid.ItemsSource = sloRecords; // results.Item1;
                 ErrorListView.ItemsSource = results.Item2;
 
             } catch(Exception ex) {

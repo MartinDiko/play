@@ -29,7 +29,28 @@
             <TextBox Name="QueryTextBox" Text="GetSloJsonActionItemReport() | where YamlValue contains ServiceId" Margin="5,5,5,5" Grid.Column="0" />
             <Button Name="QueryButton" Content="Query" HorizontalAlignment="Left" Margin="5,5,5,5" Width="75" Click="QueryButton_Click"  Grid.Column="1"/>
         </Grid>
-        <DataGrid Name="ResultsDataGrid" Grid.Row="1" MouseDoubleClick="ResultsDataGrid_MouseDoubleClick" MouseUp="ResultsDataGrid_MouseUp" />
+        <DataGrid Name="ResultsDataGrid" Grid.Row="1" MouseDoubleClick="ResultsDataGrid_MouseDoubleClick" MouseUp="ResultsDataGrid_MouseUp">
+            <DataGrid.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Name}" Style="{StaticResource Header}" />
+                                                <TextBlock Text="{Binding ItemCount, StringFormat=Count: {0}}" Style="{StaticResource Header}" />
+                                            </StackPanel>
+                                            <ItemsPresenter />
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </DataGrid.GroupStyle>        </DataGrid>
         <TextBlock Text="Errors:" Grid.Row="2" Style="{StaticResource Header}" />
         <ListView x:Name="ErrorListView" Grid.Row="3">
             <ListView.ItemTemplate>
