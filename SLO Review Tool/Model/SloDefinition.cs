@@ -20,10 +20,17 @@ namespace SloReviewTool.Model
         public List<SloDataSource> DataSources { get; private set; }
         public List<SloGroup> SloGroups { get; private set; }
 
-
-        public SloDefinition(string sloJson)
+        // ServiceTree currently stores the Yaml wrapped in JSON, with the newlines converted to the string "\n".
+        // Need to undo that to get the slo yaml.
+        public static SloDefinition CreateFromServiceTreeJson(string serviceTreeJson)
         {
-            SloYaml = ConvertServiceTreeJsonToYaml(sloJson);
+            string sloYaml = ConvertServiceTreeJsonToYaml(serviceTreeJson);
+            return new SloDefinition(sloYaml);
+        }
+
+        public SloDefinition(string sloYaml)
+        {
+            SloYaml = sloYaml;
             ThreadContext<SloParsingContext>.ForThread().Yaml = SloYaml;
             SloDictionary = ParseSloText(SloYaml);
 
@@ -37,7 +44,7 @@ namespace SloReviewTool.Model
             return deserializer.Deserialize<Dictionary<object, object>>(sloText);
         }
 
-        string ConvertServiceTreeJsonToYaml(string rawText)
+        static string ConvertServiceTreeJsonToYaml(string rawText)
         {
             rawText = rawText.Replace(@"\n", "\n");
 

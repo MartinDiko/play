@@ -42,7 +42,7 @@ namespace SloReviewTool
                 QueryStatus.Content = $"Query returned {results.Item1.Count + results.Item2.Count} record(s), {results.Item2.Count} failed to parse";
                 ListCollectionView sloRecords = new ListCollectionView(results.Item1);
                 sloRecords.GroupDescriptions.Add(new PropertyGroupDescription("ServiceGroupName"));
-                ResultsDataGrid.ItemsSource = sloRecords; // results.Item1;
+                ResultsDataGrid.ItemsSource = sloRecords;
                 ErrorListView.ItemsSource = results.Item2;
 
             } catch(Exception ex) {
@@ -67,6 +67,12 @@ namespace SloReviewTool
                 var url = @"https://servicetree.msftcloudes.com/main.html#/ServiceModel/Home/" + (ResultsDataGrid.CurrentItem as SloRecord).ServiceId;
                 System.Diagnostics.Process.Start(url);
             }
+        }
+
+        private void ValidateButton_Click(object sender, RoutedEventArgs e)
+        {
+            var sloValidator = new SloValidatorView();
+            sloValidator.Show();
         }
     }
 }

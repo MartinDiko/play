@@ -1,0 +1,23 @@
+﻿<Window x:Class="SloReviewTool.SloValidatorView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SloReviewTool"
+        mc:Ignorable="d"
+        Title="SloValidatorView" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Slo Yaml Definition" Style="{StaticResource Header}" Grid.Row="0" />
+        <TextBox x:Name="SloYamlText" TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="1" />
+        <Button x:Name="ValidateButton" Content="Validate" Click="ValidateButton_Click" Margin="5,5,5,5" Width="100" Grid.Row="2" />
+        <TextBlock Text="Results" Style="{StaticResource Header}" Margin="5,5,5,5" Grid.Row="3" />
+        <TextBlock x:Name="ResultsText" Grid.Row="4" />
+    </Grid>
+</Window>

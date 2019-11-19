@@ -17,7 +17,7 @@ namespace SloReviewTool.Model
         public void SetYamlValue(string yaml)
         {
             YamlValue = yaml;
-            slo_ = new SloDefinition(YamlValue);
+            slo_ = SloDefinition.CreateFromServiceTreeJson(YamlValue);
         }
 
         public SloDefinition SloDefinition

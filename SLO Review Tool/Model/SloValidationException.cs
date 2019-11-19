@@ -20,7 +20,8 @@ namespace SloReviewTool.Model
 
         public override string Message {
             get {
-                return $"Failure parsing '{Context.Record.ServiceName}' in Section '{Section}' at Property '{Property}'";
+                string serviceName = Context.Record != null ? Context.Record.ServiceName : "SLO YAML Text";
+                return $"Failure parsing '{serviceName}' in Section '{Section}' at Property '{Property}'";
             }
         }
 }

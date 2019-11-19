@@ -12,6 +12,11 @@ namespace SloReviewTool.Model
         public SloRecord Record { get; set; }
         public string Yaml { get; set; }
 
+        public SloParsingContext(string yaml)
+        {
+            Yaml = yaml;
+        }
+
         public SloParsingContext(SloRecord record)
         {
             Record = record;
