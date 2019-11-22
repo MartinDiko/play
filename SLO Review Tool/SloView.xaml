@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SloReviewTool"
+        xmlns:model="clr-namespace:SloReviewTool.Model"
         mc:Ignorable="d"
         Title="SloView" Height="450" Width="800">
 
@@ -101,6 +102,9 @@
                                             <TextBlock Text="Window: " Style="{StaticResource Label}" Grid.Row="5" Grid.Column="0" />
                                             <TextBlock Text="{Binding Window}" Style="{StaticResource Value}" Grid.Row="5" Grid.Column="1"/>
                                             <ListView Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Targets}">
+                                                <ListView.Resources>
+                                                    <model:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+                                                </ListView.Resources>
                                                 <ListView.ItemTemplate>
                                                     <DataTemplate>
                                                         <Grid>
@@ -109,13 +113,16 @@
                                                                 <ColumnDefinition />
                                                             </Grid.ColumnDefinitions>
                                                             <Grid.RowDefinitions>
+                                                                <RowDefinition  />
                                                                 <RowDefinition />
                                                                 <RowDefinition />
                                                             </Grid.RowDefinitions>
-                                                            <TextBlock Text="Target: " Style="{StaticResource Label}" Grid.Row="0" Grid.Column="0" />
-                                                            <TextBlock Text="{Binding TargetValue}" Style="{StaticResource Value}" Grid.Row="0" Grid.Column="1"/>
-                                                            <TextBlock Text="Comparator: " Style="{StaticResource Label}" Grid.Row="1" Grid.Column="0" />
-                                                            <TextBlock Text="{Binding Comparator}" Style="{StaticResource Value}" Grid.Row="1" Grid.Column="1"/>
+                                                            <TextBlock Text="Target Percentile: " Visibility="{Binding TargetPercentile, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource Label}" Grid.Row="0" Grid.Column="0" />
+                                                            <TextBlock Text="{Binding TargetPercentile}" Style="{StaticResource Value}" Grid.Row="0" Grid.Column="1"/>
+                                                            <TextBlock Text="Target: " Style="{StaticResource Label}" Grid.Row="1" Grid.Column="0" />
+                                                            <TextBlock Text="{Binding TargetValue}" Style="{StaticResource Value}" Grid.Row="1" Grid.Column="1"/>
+                                                            <TextBlock Text="Comparator: " Style="{StaticResource Label}" Grid.Row="2" Grid.Column="0" />
+                                                            <TextBlock Text="{Binding Comparator}" Style="{StaticResource Value}" Grid.Row="2" Grid.Column="1"/>
                                                         </Grid>
                                                     </DataTemplate>
                                                 </ListView.ItemTemplate>
