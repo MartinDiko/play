@@ -36,6 +36,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Margin="20,20,20,20">
+                <Button x:Name="PreviousRecord" FontFamily="Marlett" FontSize="20" Content="3" Width="25" HorizontalAlignment="Left" Click="PreviousRecord_Click" Visibility="Hidden" />
                 <TextBlock Text="{Binding ServiceName}" Style="{StaticResource Title}" />
                 <WrapPanel>
                     <TextBlock Text="Service Group Name: " Style="{StaticResource Label}" />
@@ -138,6 +139,7 @@
                 <TextBox x:Name="YamlText" Text="{Binding SloDefinition.SloYaml, Mode=OneWay}" Grid.Row="6" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
             </StackPanel>
             <StackPanel Grid.Column="1" Margin="20,20,20,20">
+                <Button x:Name="NextRecord" FontFamily="Marlett" FontSize="20" Content="4" Width="25" HorizontalAlignment="Left" Margin="332,0,-0.333,0" Click="NextRecord_Click" Visibility="Hidden" />
                 <TextBlock Text="Manual Review" Style="{StaticResource Title}" />
                 <TextBlock Text="Manual Review Details: " Style="{StaticResource Label}" />
                 <TextBox Text="{Binding ReviewDetails}" Height="400" />

@@ -21,12 +21,14 @@ namespace SloReviewTool
     public partial class SloView : Window
     {
         SloRecord slo_;
+        DataGrid resultsDataGrid_;
         SloQueryManager queryManager_;
 
-        public SloView(SloRecord slo)
+        public SloView(SloRecord slo, DataGrid resultsDataGrid)
         {
             queryManager_ = new SloQueryManager();
             slo_ = slo;
+            resultsDataGrid_ = resultsDataGrid;
             this.DataContext = slo_;
             InitializeComponent();
             this.DataSourcesListView.ItemsSource = slo_.SloDefinition.DataSources;
@@ -44,6 +46,14 @@ namespace SloReviewTool
             reviews.Add(new SloManualReview(slo_));
             await queryManager_.PublishManualReviews(reviews);
             Update.IsEnabled = true;
+        }
+
+        private void PreviousRecord_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void NextRecord_Click(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

@@ -72,7 +72,7 @@ namespace SloReviewTool.Model
             slo.TeamGroupName = record["TeamGroupName"] as string;
             slo.ServiceName = record["ServiceName"] as string;
             slo.SetYamlValue(record["YamlValue"] as string);
-            //slo.ReviewPassed = record.GetBoolean(record.GetOrdinal("ReviewPassed"));
+            if (!record.IsDBNull(record.GetOrdinal("ReviewPassed"))) slo.ReviewPassed = ((sbyte) record.GetValue(record.GetOrdinal("ReviewPassed")) != 0);
             slo.ReviewDetails = record["ReviewDetails"] as string;
             if(!record.IsDBNull(record.GetOrdinal("ReviewDate"))) slo.ReviewDate = record.GetDateTime(record.GetOrdinal("ReviewDate"));
             slo.ReviewedBy = record["ReviewedBy"] as string;
