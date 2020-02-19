@@ -21,9 +21,11 @@ namespace SloReviewTool
     public partial class SloView : Window
     {
         SloRecord slo_;
+        SloQueryManager queryManager_;
 
         public SloView(SloRecord slo)
         {
+            queryManager_ = new SloQueryManager();
             slo_ = slo;
             this.DataContext = slo_;
             InitializeComponent();
@@ -33,6 +35,13 @@ namespace SloReviewTool
 
         public SloDefinition Definition {
             get => slo_.SloDefinition;
+        }
+
+        private async void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            var reviews = new List<SloManualReview>();
+            reviews.Add(new SloManualReview(slo_));
+            await queryManager_.PublishManualReviews(reviews);
         }
     }
 }

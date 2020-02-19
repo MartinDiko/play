@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SloReviewTool"
+        xmlns:model="clr-namespace:SloReviewTool.Model"
         mc:Ignorable="d"
-        Title="SloView" Height="450" Width="800">
+        Title="SloView" Height="788" Width="800">
 
     <Window.Resources>
         <Style x:Key="Header" TargetType="TextBlock">
@@ -28,7 +29,7 @@
             <Setter Property="FontWeight" Value="DemiBold"/>
         </Style>
     </Window.Resources>
-    <ScrollViewer x:Name="MainView" VerticalScrollBarVisibility="Auto">
+    <ScrollViewer x:Name="MainView" VerticalScrollBarVisibility="Auto" Margin="0,0,0.333,-184.333">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -140,6 +141,13 @@
                 <TextBlock Text="Manual Review" Style="{StaticResource Title}" />
                 <TextBlock Text="Manual Review Details: " Style="{StaticResource Label}" />
                 <TextBox Text="{Binding ReviewDetails}" Height="400" />
+                <TextBlock Text="Passed: " Style="{StaticResource Label}" />
+                <CheckBox IsChecked="{Binding ReviewPassed}" />
+                <TextBlock Text="Reviewed On: " Style="{StaticResource Label}" />
+                <TextBlock Text="{Binding ReviewDate}" />
+                <TextBlock Text="Reviewed By: " Style="{StaticResource Label}" />
+                <TextBlock Text="{Binding ReviewedBy}" />
+                <Button Name="Update" Content="Update" Click="UpdateButton_Click" />
             </StackPanel>
 
         </Grid>

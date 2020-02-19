@@ -1,19 +1,23 @@
-﻿using Kusto.Data;
+﻿using Kusto.Cloud.Platform.Utils;
+using Kusto.Data;
 using Kusto.Data.Common;
 using Kusto.Data.Net.Client;
+using Kusto.Ingest;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using System.Dynamic;
-using System.Threading;
-using System.Windows.Documents;
+using System.Threading.Tasks;
 
 namespace SloReviewTool.Model
 {
     class SloQueryManager
     {
         ICslQueryProvider client_;
+
+        readonly string kustoUrl_ = "https://azurequality.westus2.kusto.windows.net/AzureQuality";
+        readonly string kustoDb_ = "AzureQuality";
+        readonly string kustoManualReviewTable_ = "SloDefinitionManualReview";
 
         public SloQueryManager()
         {
@@ -22,7 +26,7 @@ namespace SloReviewTool.Model
 
         void Initialize()
         {
-            var kcsb = new KustoConnectionStringBuilder("https://azurequality.westus2.kusto.windows.net/AzureQuality").WithAadUserPromptAuthentication();
+            var kcsb = new KustoConnectionStringBuilder(kustoUrl_).WithAadUserPromptAuthentication();
             client_ = KustoClientFactory.CreateCslQueryProvider(kcsb);
         }
 
@@ -54,15 +58,37 @@ namespace SloReviewTool.Model
         {
             var slo = new SloRecord();
             ThreadContext<SloParsingContext>.Set(new SloParsingContext(slo));
-            slo.ServiceId = record.GetString(record.GetOrdinal("ServiceId"));
+            slo.ServiceId = record["ServiceId"] as string;
             slo.OrganizationName = record["OrganizationName"] as string;
             slo.ServiceGroupName = record["ServiceGroupName"] as string;
             slo.TeamGroupName = record["TeamGroupName"] as string;
             slo.ServiceName = record["ServiceName"] as string;
-            slo.ServiceId = record["ServiceId"] as string;
             slo.SetYamlValue(record["YamlValue"] as string);
+            //slo.ReviewPassed = record.GetBoolean(record.GetOrdinal("ReviewPassed"));
+            slo.ReviewDetails = record["ReviewDetails"] as string;
+            if(!record.IsDBNull(record.GetOrdinal("ReviewDate"))) slo.ReviewDate = record.GetDateTime(record.GetOrdinal("ReviewDate"));
+            slo.ReviewedBy = record["ReviewedBy"] as string;
 
             return slo;
+        }
+
+        public async Task PublishManualReviews(IEnumerable<SloManualReview> results)
+        {
+            var dt = results.ToDataTable();
+
+            var kustoConnectionStringBuilderEngine = new KustoConnectionStringBuilder(kustoUrl_).WithAadUserPromptAuthentication();
+
+            using (var client = KustoIngestFactory.CreateDirectIngestClient(kustoConnectionStringBuilderEngine))
+            {
+                //Ingest from blobs according to the required properties
+                var kustoIngestionProperties = new KustoIngestionProperties(
+                    databaseName: kustoDb_,
+                    tableName: kustoManualReviewTable_
+                );
+
+                var reader = dt.CreateDataReader();
+                var result = await client.IngestFromDataReaderAsync(reader, kustoIngestionProperties);
+            }
         }
 
     }

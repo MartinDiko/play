@@ -21,11 +21,11 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBox Name="QueryTextBox" Text="GetSloJsonActionItemReport() | where YamlValue contains ServiceId" Margin="5,5,5,5" Grid.Column="0" Grid.ColumnSpan="2" />
-            <Button Name="QueryButton" Content="Query" HorizontalAlignment="Left" Margin="5,5,0,5" Width="75" Click="QueryButton_Click" Grid.Column="2" />
+            <TextBox Name="QueryTextBox" Text="GetSloJsonActionItemReport() | where YamlValue != ''" Margin="5,5,5,5" Grid.Column="0" Grid.ColumnSpan="2" />
+            <Button Name="QueryButton" Content="Query" HorizontalAlignment="Left" Margin="5,5,0,5" Width="75" Click="QueryButton_Click" Grid.Column="2" IsDefault="True" />
             <Button Name="ValidateButton" Content="SLO YAML Validator" HorizontalAlignment="Left" Margin="5,5,0,5" Width="125" Click="ValidateButton_Click" Grid.Column="3" />
         </Grid>
-        <DataGrid Name="ResultsDataGrid" Grid.Row="1" MouseDoubleClick="ResultsDataGrid_MouseDoubleClick" MouseUp="ResultsDataGrid_MouseUp" AutoGenerateColumns="False">
+        <DataGrid Name="ResultsDataGrid" IsReadOnly="True" Grid.Row="1" MouseDoubleClick="ResultsDataGrid_MouseDoubleClick" MouseUp="ResultsDataGrid_MouseUp" AutoGenerateColumns="False">
             <DataGrid.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.ContainerStyle>
