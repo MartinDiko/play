@@ -39,9 +39,11 @@ namespace SloReviewTool
 
         private async void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
+            Update.IsEnabled = false;
             var reviews = new List<SloManualReview>();
             reviews.Add(new SloManualReview(slo_));
             await queryManager_.PublishManualReviews(reviews);
+            Update.IsEnabled = true;
         }
     }
 }

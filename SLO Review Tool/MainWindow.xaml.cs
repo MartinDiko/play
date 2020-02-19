@@ -35,6 +35,8 @@ namespace SloReviewTool
         {
             QueryButton.IsEnabled = false;
             QueryStatus.Content = "Executing Query...";
+            this.ResultsDataGrid.ItemsSource = null;
+            this.ErrorListView.ItemsSource = null;
 
             try {
                 var results = await ExecuteQueryAsync(QueryTextBox.Text);

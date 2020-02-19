@@ -34,15 +34,23 @@ namespace SloReviewTool.Model
         {
             var items = new List<SloRecord>();
             var errors = new List<SloValidationException>();
+            var uniqueServiceIds = new SortedSet<string>();
 
             // Append to the query the join to get the review data
-            query += @"| project ServiceId, OrganizationName, ServiceGroupName, TeamGroupName, ServiceName, YamlValue, ServiceIdGuid = toguid(ServiceId) | join kind = leftouter SloDefinitionManualReview on $left.ServiceIdGuid == $right.ServiceId";
+            query += @"| project ServiceId, OrganizationName, ServiceGroupName, TeamGroupName, ServiceName, YamlValue, ServiceIdGuid = toguid(ServiceId) | join kind = leftouter SloDefinitionManualReview on $left.ServiceIdGuid == $right.ServiceId | sort by ReviewDate desc ";
 
             // "GetSloJsonActionItemReport() | where YamlValue contains ServiceId"
             using (var results = client_.ExecuteQuery(query)) {
                 for (int i = 0; results.Read(); i++) {
                     try {
-                        items.Add(ReadSingleResult((IDataRecord)results));
+                        var result = ReadSingleResult((IDataRecord)results);
+
+                        // Only add the latest value
+                        if (!uniqueServiceIds.Contains(result.ServiceId)) {
+                            items.Add(result);
+                            uniqueServiceIds.Add(result.ServiceId);
+                        }
+
                     } catch(SloValidationException ex) {
                         errors.Add(ex);
                     } catch (Exception ex) {
