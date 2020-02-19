@@ -31,6 +31,9 @@ namespace SloReviewTool.Model
             var items = new List<SloRecord>();
             var errors = new List<SloValidationException>();
 
+            // Append to the query the join to get the review data
+            query += @"| project ServiceId, OrganizationName, ServiceGroupName, TeamGroupName, ServiceName, YamlValue, ServiceIdGuid = toguid(ServiceId) | join kind = leftouter SloDefinitionManualReview on $left.ServiceIdGuid == $right.ServiceId";
+
             // "GetSloJsonActionItemReport() | where YamlValue contains ServiceId"
             using (var results = client_.ExecuteQuery(query)) {
                 for (int i = 0; results.Read(); i++) {
