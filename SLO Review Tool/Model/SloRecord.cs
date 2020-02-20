@@ -21,6 +21,8 @@ namespace SloReviewTool.Model
 
         public void SetYamlValue(string yaml)
         {
+            if (yaml == "") throw new SloValidationException(ThreadContext<SloParsingContext>.ForThread(), "YamlValue", null, "YamlValue missing");
+
             YamlValue = yaml;
             slo_ = SloDefinition.CreateFromServiceTreeJson(YamlValue);
         }
