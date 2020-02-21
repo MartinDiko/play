@@ -16,9 +16,11 @@ namespace SloReviewTool.Model
 
             // Update Review Date to be the current date
             ReviewDate = DateTime.Now;
+            record.ReviewDate = ReviewDate;
 
             // Update Reviewed By to be the current user
             ReviewedBy = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            record.ReviewedBy = ReviewedBy;
         }
 
         public Guid ServiceId { get; set; }

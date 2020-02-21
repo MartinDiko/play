@@ -15,6 +15,7 @@ namespace SloReviewTool.Model
         public string Namespace { get; set; }
         public string Signal { get; set; }
         public string Window { get; set; }
+        public string Category { get; set; }
         public List<SloTarget> Targets { get; set; }
 
         public Slo(Dictionary<object, object> slo)
@@ -22,9 +23,10 @@ namespace SloReviewTool.Model
             Name = SloValidator.GetString(this.GetType().Name, slo, "name");
             SourceId = SloValidator.GetString(this.GetType().Name, slo, "source-id");
             Description = SloValidator.GetString(this.GetType().Name, slo, "description");
-            Namespace = SloValidator.GetString(this.GetType().Name, slo, "namespace");
+            Namespace = SloValidator.GetString(this.GetType().Name, slo, "namespace", false);
             Signal = SloValidator.GetString(this.GetType().Name, slo, "signal");
             Window = SloValidator.GetString(this.GetType().Name, slo, "window");
+            Category = SloValidator.GetString(this.GetType().Name, slo, "category", false);
             Targets = SloTarget.ParseList(SloValidator.GetList(this.GetType().Name, slo, "targets"));
         }
 

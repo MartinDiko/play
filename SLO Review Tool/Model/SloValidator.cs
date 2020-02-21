@@ -9,9 +9,18 @@ namespace SloReviewTool.Model
 {
     public class SloValidator
     {
-        public static string GetString(string section, Dictionary<object, object> container, string property)
+        public static string GetString(string section, Dictionary<object, object> container, string property, bool required = true)
         {
-            if (!container.ContainsKey(property)) throw new SloValidationException(ThreadContext<SloParsingContext>.ForThread(), section, container, property);
+            if (!container.ContainsKey(property))
+            {
+                if (required)
+                {
+                    throw new SloValidationException(ThreadContext<SloParsingContext>.ForThread(), section, container, property);
+                } else
+                {
+                    return "";
+                }
+            }
             return container[property] as string;
         }
 
