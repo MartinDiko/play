@@ -32,13 +32,22 @@ namespace SloReviewTool.Model
             var errors = new List<SloValidationException>();
 
             // "GetSloJsonActionItemReport() | where YamlValue contains ServiceId"
-            using (var results = client_.ExecuteQuery(query)) {
-                for (int i = 0; results.Read(); i++) {
-                    try {
+            var results = client_.ExecuteQuery(query);
+            using (results)
+            {
+                for (int i = 0; results.Read(); i++)
+                {
+
+                    try
+                    {
                         items.Add(ReadSingleResult((IDataRecord)results));
-                    } catch(SloValidationException ex) {
+                    }
+                    catch (SloValidationException ex)
+                    {
                         errors.Add(ex);
-                    } catch (Exception ex) {
+                    }
+                    catch (Exception ex)
+                    {
                         Debug.WriteLine($"Schema violation: {ex.Message}");
                     }
                 }

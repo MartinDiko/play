@@ -6,26 +6,33 @@
         xmlns:local="clr-namespace:SloReviewTool"
         mc:Ignorable="d"
         Title="SLO Review Tool " Height="450" Width="800">
-    <Grid>
+    <Grid Margin="20px">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition MaxHeight="100" />
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+
         <Grid Grid.Row="0">
+            <TextBlock Text="Search by service name or service id" Grid.Row="2" FontSize="14" FontWeight="bold" />
+        </Grid>
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="169*"/>
                 <ColumnDefinition Width="142*"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBox Name="QueryTextBox" Text="GetSloJsonActionItemReport() | where YamlValue != ''" Margin="5,5,5,5" Grid.Column="0" Grid.ColumnSpan="2" />
+
+            <TextBox Name="QueryTextBox" Margin="2,5,7.667,5.333" Grid.Column="0" Grid.ColumnSpan="2" />
             <Button Name="QueryButton" Content="Query" HorizontalAlignment="Left" Margin="5,5,0,5" Width="75" Click="QueryButton_Click" Grid.Column="2" IsDefault="True" />
             <Button Name="ValidateButton" Content="SLO YAML Validator" HorizontalAlignment="Left" Margin="5,5,0,5" Width="125" Click="ValidateButton_Click" Grid.Column="3" />
         </Grid>
-        <DataGrid Name="ResultsDataGrid" IsReadOnly="True" Grid.Row="1" MouseDoubleClick="ResultsDataGrid_MouseDoubleClick" MouseUp="ResultsDataGrid_MouseUp" AutoGenerateColumns="False">
+
+        <DataGrid Name="ResultsDataGrid" IsReadOnly="True" Grid.Row="2" MouseDoubleClick="ResultsDataGrid_MouseDoubleClick" MouseUp="ResultsDataGrid_MouseUp" AutoGenerateColumns="False">
+
             <DataGrid.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.ContainerStyle>
@@ -53,7 +60,7 @@
                 <DataGridTextColumn Header="Yaml" Binding="{Binding YamlValue}" />
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Text="Errors:" Grid.Row="2" Style="{StaticResource Header}" />
+        <TextBlock Text="Errors:" Grid.Row="3" Style="{StaticResource Header}" />
         <ListView x:Name="ErrorListView" Grid.Row="3">
             <ListView.ItemTemplate>
                 <DataTemplate>

@@ -13,7 +13,8 @@ namespace SloReviewTool.Model
     public class SloDefinition
     {
         public string SloYaml { get; private set; }
-        public string ServiceId {
+        public string ServiceId
+        {
             get => SloValidator.GetString(this.GetType().Name, SloDictionary, "service-id");
         }
         public Dictionary<object, object> SloDictionary { get; private set; }
@@ -50,7 +51,7 @@ namespace SloReviewTool.Model
 
             // For now, parse JSON to get SLO yaml.  Service Tree should be fixed.
             var json = JObject.Parse(rawText);
-            var yaml = json["ServiceLevelObjectives"].ToString();
+            var yaml = json["ServiceLevelObjectives"].ToString().Replace("\t", "");
 
             return yaml;
         }
