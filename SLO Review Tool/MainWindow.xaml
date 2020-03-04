@@ -55,9 +55,9 @@
                 </GroupStyle>
             </DataGrid.GroupStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Service Name" Binding="{Binding ServiceName}" />
-                <DataGridTextColumn Header="Service Id" Binding="{Binding ServiceId}" />
-                <DataGridTextColumn Header="Yaml" Binding="{Binding YamlValue}" />
+                <DataGridTextColumn Header="Service Name" Binding="{Binding ServiceName, Mode=OneWay}" />
+                <DataGridTextColumn Header="Service Id" Binding="{Binding ServiceId, Mode=OneWay}" />
+                <DataGridTextColumn Header="Yaml" Binding="{Binding YamlValue, Mode=OneWay}" />
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Text="Errors:" Grid.Row="3" Style="{StaticResource Header}" />

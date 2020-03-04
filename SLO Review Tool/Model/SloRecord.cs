@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 
 namespace SloReviewTool.Model
@@ -13,9 +14,15 @@ namespace SloReviewTool.Model
         public string TeamGroupName { get; set; }
         public string ServiceName { get; set; }
         public string YamlValue { get; private set; }
+        public string ReviewDetails { get; set; }
+        public bool ReviewPassed { get; set; }
+        public DateTime ReviewDate { get; set; }
+        public string ReviewedBy { get; set; }
 
         public void SetYamlValue(string yaml)
         {
+            if (yaml == "") throw new SloValidationException(ThreadContext<SloParsingContext>.ForThread(), "YamlValue", null, "YamlValue missing");
+
             YamlValue = yaml;
             slo_ = SloDefinition.CreateFromServiceTreeJson(YamlValue);
         }

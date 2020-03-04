@@ -51,6 +51,8 @@ namespace SloReviewTool
         {
             QueryButton.IsEnabled = false;
             QueryStatus.Content = "Executing Query...";
+            this.ResultsDataGrid.ItemsSource = null;
+            this.ErrorListView.ItemsSource = null;
 
             try
             {
@@ -75,7 +77,7 @@ namespace SloReviewTool
         private void ResultsDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (ResultsDataGrid.CurrentItem == null) return;
-            var sloView = new SloView(ResultsDataGrid.CurrentItem as SloRecord);
+            var sloView = new SloView(ResultsDataGrid.CurrentItem as SloRecord, ResultsDataGrid);
             sloView.Show();
         }
 
