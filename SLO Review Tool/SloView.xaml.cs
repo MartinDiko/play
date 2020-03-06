@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Xamarin.Forms.PlatformConfiguration;
 
 namespace SloReviewTool
 {
@@ -23,6 +24,7 @@ namespace SloReviewTool
         SloRecord slo_;
         DataGrid resultsDataGrid_;
         SloQueryManager queryManager_;
+
 
         public SloView(SloRecord slo, DataGrid resultsDataGrid)
         {
@@ -41,11 +43,20 @@ namespace SloReviewTool
 
         private async void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
+
             Update.IsEnabled = false;
             var reviews = new List<SloManualReview>();
             reviews.Add(new SloManualReview(slo_));
             await queryManager_.PublishManualReviews(reviews);
+            Update.Content = "Updated";
+            Update.Background = new SolidColorBrush(Colors.Green);
+            Update.Foreground = Brushes.White;
             Update.IsEnabled = true;
+        }
+
+        private void CloseCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Close();
         }
 
         private void PreviousRecord_Click(object sender, RoutedEventArgs e)

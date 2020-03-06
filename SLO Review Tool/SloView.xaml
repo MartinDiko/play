@@ -7,7 +7,10 @@
         xmlns:model="clr-namespace:SloReviewTool.Model"
         mc:Ignorable="d"
         Title="SloView" Height="788" Width="800">
-
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Close"
+                        Executed="CloseCommandHandler"/>
+    </Window.CommandBindings>
     <Window.Resources>
         <Style x:Key="Header" TargetType="TextBlock">
             <Setter Property="FontWeight" Value="Bold"/>
@@ -146,15 +149,27 @@
                 <Button x:Name="NextRecord" FontFamily="Marlett" FontSize="20" Content="4" Width="25" HorizontalAlignment="Left" Margin="332,0,-0.333,0" Click="NextRecord_Click" Visibility="Hidden" />
                 <TextBlock Text="Manual Review" Style="{StaticResource Title}" />
                 <TextBlock Text="Manual Review Details: " Style="{StaticResource Label}" />
-                <TextBox Text="{Binding ReviewDetails}" Height="400" AcceptsReturn="True" TextWrapping="Wrap" />
-                <TextBlock Text="Passed: " Style="{StaticResource Label}" />
-                <CheckBox IsChecked="{Binding ReviewPassed}" />
-                <TextBlock Text="Reviewed On: " Style="{StaticResource Label}" />
-                <TextBlock Text="{Binding ReviewDate}" />
+                <TextBox Text="{Binding ReviewDetails}" Height="400" AcceptsReturn="True" TextWrapping="Wrap" Margin="0, 10, 10, 10" Padding="10"/>
+                <WrapPanel Margin="0, 5">
+                    <TextBlock Text="Passed: " Style="{StaticResource Label}" />
+                    <CheckBox IsChecked="{Binding ReviewPassed}" VerticalAlignment="Center" />
+                </WrapPanel>
+                <WrapPanel Margin="0, 10">
+                    <TextBlock Text="Reviewed On: " Style="{StaticResource Label}" />
+                <TextBlock Text="{Binding ReviewDate}" VerticalAlignment="Center" />
+                </WrapPanel>
+            <WrapPanel>
                 <TextBlock Text="Reviewed By: " Style="{StaticResource Label}" />
-                <TextBlock Text="{Binding ReviewedBy}" />
-                <Button Name="Update" Content="Update" Click="UpdateButton_Click" />
+                <TextBlock Text="{Binding ReviewedBy}" VerticalAlignment="Center" />
+            </WrapPanel>
+
+            <Button Name="Update" Content="Update" Click="UpdateButton_Click" Margin="0, 20"/>
+
+            <StackPanel Name="MainStackPanel">
+                <Button Command="ApplicationCommands.Close" 
+                Content="Close Window" />
             </StackPanel>
+        </StackPanel>
 
         </Grid>
 </Window>
